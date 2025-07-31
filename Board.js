@@ -1,5 +1,5 @@
-import { useState } from "react";
 import Square from "./Square";
+import { useState } from "react";
 
 const Board = () => {
 	const [squares, setSquares] = useState(Array(9).fill(null));
@@ -18,9 +18,17 @@ const Board = () => {
 		}
 
 		setSquares(next);
-
 		setXNext(!xNext);
-		console.log("clicked!!", i);
+
+		const winner = calculateWinner(next);
+		if (!winner && next.every((square) => square !== null)) {
+			// game is draw, reset the game
+			setTimeout(() => {
+				alert("It's a draw! Restarting game...");
+				setSquares(Array(9).fill(null));
+				setXNext(true);
+			}, 500);
+		}
 	};
 
 	const calculateWinner = (squares) => {
